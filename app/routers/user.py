@@ -23,10 +23,10 @@ async def Loguin(data: LoguinCreate , db: Session = Depends(pegar_sessao)):
     user = db.query(User).filter(User.email == data.email).first()
     if not user:
         raise HTTPException(status_code = 401 , detail = "User not authenticator")
-    acess_token = criar_token(user.id)
+    access_token = criar_token(user.id)
     refresh_token = criar_token(user.id)
     return {
-        "acess_token": acess_token,
+        "access_token": access_token,
         "refresh_token": refresh_token
     }
 
@@ -35,13 +35,13 @@ async def LoguinForm(dados_formulario: OAuth2PasswordRequestForm = Depends(), db
     user = LoguinService(dados_formulario.password , dados_formulario.username , db)
     if not user:
         raise HTTPException(status_code = 401 , detail = "User not authorization")
-    acess_token = criar_token(user.id)
+    access_token = criar_token(user.id)
     return {
-        "acess_token": acess_token,
+        "access_token": access_token,
         "token_type": "bearer"
     }
 
 @router.get("refresh") 
 async def refresh(user: User = Depends(verificar_token)):
-    acess_token = criar_token(user.id)
-    return {"acess_token": acess_token , "token_type": "bearer"}
+    access_token = criar_token(user.id)
+    return {"access_token": access_token , "token_type": "bearer"}
