@@ -1,9 +1,12 @@
 from pydantic import BaseModel , Field , field_validator
 from typing import Annotated
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID , uuid4
 
 class RegistrosBase(BaseModel):
+    crime_id: UUID
+    location_id: UUID |None = None
+    user_id: UUID |None = None
     qtd: Annotated[int , Field(ge = 1 , le = 10000)]
     mes: Annotated[int , Field(ge = 1 , le = 12)]
     ano: Annotated[int , Field(ge = 1900 , le= 2100)]

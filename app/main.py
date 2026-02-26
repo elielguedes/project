@@ -6,5 +6,5 @@ from app.routers.crime import RouterCrime
 app = FastAPI()
 
 app.include_router(router)
-app.include_router(RouterRecords)
 app.include_router(RouterCrime)
+app.include_router(RouterRecords)
