@@ -5,7 +5,7 @@ from app.models.crime import Crime
 from app.models.location import Location
 from app.models.user import User
 
-csv_path = 'csv/crimes_violentos_2025.csv'
+csv_path = 'csvv/crimes_violentos_2025.csv'
 df = pd.read_csv(csv_path, sep=';')
 
 db = SessionLocal()

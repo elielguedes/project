@@ -12,8 +12,33 @@ def CreateRecords(db: Session, data: RegistrosCreate):
     db.refresh(new_record)
     return new_record
 
+def update_reg_id(db: Session , id: str , data: RegistrosCreate):
+    records = db.query(Registros).filter(Registros.id == id).first()
+    if not records:
+        raise HTTPException(status_code = 400 , detail = "Registro não encontrado")
+    records.qtd = int(data.qtd)
+    records.mes = int(data.mes.value)
+    records.ano = int(data.ano)
+    db.commit()
+    db.refresh(records)
+    return records
+
 def get_res(db: Session):
     records = db.query(Registros).all()
     if not records:
-        raise HTTPException(status_code = 400 , detail = "Dados não encontrados")
+        raise HTTPException(status_code = 400 , detail = "Regitros não encontrados")
+    return records
+
+def get_recor_id(db: Session , id: str):
+    records = db.query(Registros).filter(Registros.id == id).all()
+    if not records:
+        raise HTTPException(status_code = 400 , detail = "Registro não encontrado")
+    return records
+
+def delete_record_id(db: Session , id: str):
+    records = db.query(Registros).filter(Registros.id == id).first()
+    if not records:
+        raise HTTPException(status_code = 401 ,detail = "Registro não encontrado")
+    db.delete(records)
+    db.commit()
     return records
