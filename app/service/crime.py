@@ -2,43 +2,44 @@ from fastapi import HTTPException
 from ..schemas.crime import CrimeCreate
 from sqlalchemy.orm import Session
 from ..models.crime import Crime
+from ..repositories.crime import CrimeRepository
 
-def Create_Crime(db: Session , data: CrimeCreate):
-    crime = Crime(nome = data.nome)
-    if not crime:
-        raise HTTPException(status_code = 400 , detail = "Crime não registrado")
+class CrimeService:
+    def __init__(self , repository: CrimeRepository):
+        self.repository = repository
     
-    db.add(crime)
-    db.commit()
-    return crime
+    def create_cri(self , data: CrimeCreate):
+        new_crime = Crime(nome = data.nome)
+        if not new_crime:
+            raise HTTPException(status_code = 400 , detail = "Ocorrêcia não criada")
+        return self.repository.create_crime(new_crime)
 
-def Update_Crime(db: Session , data: CrimeCreate , id: str):
-    crime = db.query(Crime).filter(Crime.id == id).first()
-    if not crime:
-        raise HTTPException(status_code = 400 , detail = "Crime incorreto")
-    crime.nome = str(data.nome)
+    def Update_Crime(self ,id: str , data):
+        crime = self.repository.get_by_id(id)
+        if not crime:
+            raise HTTPException(status_code = 404 ,detail = "Crime não encontrado")
+        crime_exist = self.repository.get_by_nome(data.nome)
+        if crime_exist and crime_exist.id != id:
+            raise HTTPException(status_code = 400 ,detail = "Name já cadastrado")
+        crime.nome = data.nome
+        return self.repository.update(crime)
 
-    db.commit()
-    db.refresh(crime)
-    return crime
+    def Get_Crime(self):
+        crime = self.repository.get_by_crime()
+        if not crime:
+            raise HTTPException(status_code = 404 , detail = "Banco de dados vazio")
+        return crime
 
-def Get_Crime(db: Session):
-    crime = db.query(Crime).all()
-    if not crime:
-        raise HTTPException(status_code = 400 , detail = "Banco de dados vazio")
-    return crime
+    def Get_Crime_id(self , id: str):
+        crime = self.repository.get_by_ip(id)
+        if not crime:
+            raise HTTPException(status_code = 404 , detail = "Cadastro não encontrado ")
+        return crime
 
-def Get_Crime_id(db: Session , id: str):
-    crime = db.query(Crime).filter(Crime.id == id).all()
-    if not crime:
-        raise HTTPException(status_code = 400 , detail = "Cadastro não encontrado ")
-    return crime
+    def Delete_Crime(self, id: str):
+        crime = self.repository.delete_by_id(id)
+        if not crime:
+            raise HTTPException(status_code = 404 , detail = "Cadastro não encontrado ")
+        self.repository.delete(crime)
 
-def Delete_Crime(db: Session , id: str):
-    crime = db.query(Crime).filter(Crime.id == id).first()
-    if not crime:
-        raise HTTPException(status_code = 400 , detail = "Cadastro não encontrado ")
-    
-    db.delete(crime)
-    db.commit()
-    return crime
+        return {"Mensagem": "Crime deletado com sucesso !"}

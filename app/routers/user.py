@@ -5,18 +5,20 @@ from ..schemas.loguin import LoguinCreate , LoguinResponse
 from ..database import pegar_sessao
 from sqlalchemy.orm import Session
 from ..models.user import User
-from ..service.user import CreateService
+from ..service.user import UserService
 from ..service.loguin import LoguinService
 from ..core.config import verificar_token
 from ..service.loguin import criar_token , LoguinService
+from ..repositories.user import UserRepo
 
 router = APIRouter(prefix = "/auth" , tags=["auth"])
 
 
 @router.post("/create" , response_model = UserResponse)
 async def CreateLoguin(data: UserCreate , db: Session = Depends(pegar_sessao)):
-    user = CreateService(db , data)
-    return user
+    repository = UserRepo(db)
+    service = UserService(repository)
+    return service.create_user(data)
 
 @router.post("/loguin", response_model = LoguinResponse)
 async def Loguin(data: LoguinCreate , db: Session = Depends(pegar_sessao)):

@@ -3,7 +3,7 @@ from pydantic.dataclasses import dataclass
 from typing import Annotated
 from datetime import datetime
 from uuid import UUID , uuid4
-from dataclasses import field
+from dataclasses import  field
 from enum import Enum
 
 class Mes(int, Enum):
