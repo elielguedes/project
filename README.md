@@ -3,7 +3,7 @@
 erDiagram
 
   USER {
-    STRING id uuid , pk
+    STRING id uuid  pk
     VARCHAR email
     VARCHAR senha
     VARCHAR adm
