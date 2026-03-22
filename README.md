@@ -1,3 +1,12 @@
+## API - PUBLICA 
+
+## 🚀 Tecnologias utilizadas
+<p align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg">
+  <img src="https://logo.svgcdn.com/logos/fastapi.svg">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg">
+</p>
 
 ```mermaid
 erDiagram
