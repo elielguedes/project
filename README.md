@@ -3,14 +3,14 @@
 erDiagram
 
   USER {
-    STRING id uuid  pk
+    UUID id pk
     VARCHAR email
     VARCHAR senha
     VARCHAR adm
   }
 
   REGISTROS {
-    STRING id UUID  pk
+    UUID id pk
     INT qtd
     INT mes
     INT ano
@@ -20,12 +20,12 @@ erDiagram
   }
 
   CRIME {
-    STRING id uuid  pk
+    UUID id pk
     VARCHAR nome
   }
 
   LOCATION {
-    STRING id uuid pk
+    UUID id pk
     VARCHAR cod_municipio
     VARCHAR risp
     VARCHAR rmbh
