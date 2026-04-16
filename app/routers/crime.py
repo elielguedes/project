@@ -7,6 +7,7 @@ from ..core.dependecies import Validator_Adm
 from ..service.crime import CrimeService
 from ..repositories.crime import CrimeRepository
 
+
 RouterCrime = APIRouter(prefix = "/Crimes", tags=["Crimes"])
 
 @RouterCrime.post("/CreateCrimes", response_model = CrimeResponse)
